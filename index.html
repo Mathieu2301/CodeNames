@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<p style="float: left" id='infos_txt'></p><p style="float: right" id='party_infos_txt'></p>
+<html class="htmlbgcolor" lang="fr">
+<head>
+<title></title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- CSS -->
+<link rel="stylesheet" href="/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="/css/themes/default.min.css"/>
+
+<style>
+
+  html{
+    transition: all 0.5s;
+    background-color: #c8c8c8;
+    font: "arial";
+  }
+
+  a {
+    display: inline-block;
+    border: none;
+    font-size: 30px;
+    padding: 20px;
+    width: 500px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  table, th, td {
+
+    border: 30px hidden;
+    width: 500px;
+    height: 50px;
+  }
+
+  table {
+    background-color: white
+  }
+
+  button{
+    display: inline-block;
+    border: none;
+    font-size: 40px;
+    padding: 2px;
+    width: 300px;
+    height: 130px;
+    transition: all 0.5s;
+    cursor: pointer;
+  }
+
+  .next_btn {
+    display: inline-block;
+    border: none;
+    text-align: center;
+    font-size: 50px;
+    padding: 20px;
+    width: 1520px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  .next_btn span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.2s;
+  }
+  
+  .next_btn span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.2s;
+  }
+  
+  .next_btn:hover span {
+    padding-right: 25px;
+  }
+  
+  .next_btn:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+  .devinBtn{
+    display: block;
+    height: 500px;
+    width: 500px;
+    float: left;
+    transition: all 0.5s;
+  }
+
+  .devinBtn:hover{
+    height: 600px;
+    width: 600px;
+    transition: all 0.3s;
+  }
+
+  .donneurindicesBtn{
+    display: block;
+    height: 500px;
+    width: 500px;
+    float: right;
+    transition: all 0.5s;
+  }
+
+  .donneurindicesBtn:hover{
+    height: 600px;
+    width: 600px;
+    transition: all 0.3s;
+  }
+
+  .main{
+    width: 1200px;
+  }
+
+
+</style>
+
+
+<script>
+
+</script>
+
+</head>
+<body>
+  </br></br></br></br>
+  <center>
+    <div class="main">
+      <!-- La on met tous les boutons -->
+      <p id="welcomeMessage" style="font-size: 50px; transition: all 0.3s;">Connexion...</p></br>
+      <img src="/devin.png" class="devinBtn" onmouseover="$('html').css('background-color','white');"></img>
+      <img src="/espion.png" class="donneurindicesBtn" onmouseover="$('html').css('background-color','white');"></img>
+    </div>
+    <div class="devin">
+      <table>
+        <tbody>
+          <tr>
+            <th><button class="carte_1"></button></th>
+            <th><button class="carte_2"></button></th>
+            <th><button class="carte_3"></button></th>
+            <th><button class="carte_4"></button></th>
+            <th><button class="carte_5"></button></th>
+          </tr>
+          <tr>
+            <th><button class="carte_6"></button></th>
+            <th><button class="carte_7"></button></th>
+            <th><button class="carte_8"></button></th>
+            <th><button class="carte_9"></button></th>
+            <th><button class="carte_10"></button></th>
+          </tr>
+          <tr>
+            <th><button class="carte_11"></button></th>
+            <th><button class="carte_12"></button></th>
+            <th><button class="carte_13"></button></th>
+            <th><button class="carte_14"></button></th>
+            <th><button class="carte_15"></button></th>
+          </tr>
+          <tr>
+            <th><button class="carte_16"></button></th>
+            <th><button class="carte_17"></button></th>
+            <th><button class="carte_18"></button></th>
+            <th><button class="carte_19"></button></th>
+            <th><button class="carte_20"></button></th>
+          </tr>
+          <tr>
+            <th><button class="carte_21"></button></th>
+            <th><button class="carte_22"></button></th>
+            <th><button class="carte_23"></button></th>
+            <th><button class="carte_24"></button></th>
+            <th><button class="carte_25"></button></th>
+          </tr>
+        </tbody>
+      </table>
+      <button class="next_btn" style="vertical-align:middle"><span>Suivant </span></button>
+    </div>
+    <div class="donneurindices"> <!-- On affiche les cartes avec les couleurs -->
+      <table>
+        <tbody>
+          <tr>
+            <th><button class="carte_1"></button></th>
+            <th><button class="carte_2"></button></th>
+            <th><button class="carte_3"></button></th>
+            <th><button class="carte_4"></button></th>
+            <th><button class="carte_5"></button></th>
+          </tr>
+          <tr>
+            <th><button class="carte_6"></button></th>
+            <th><button class="carte_7"></button></th>
+            <th><button class="carte_8"></button></th>
+            <th><button class="carte_9"></button></th>
+            <th><button class="carte_10"></button></th>
+          </tr>
+          <tr>
+            <th><button class="carte_11"></button></th>
+            <th><button class="carte_12"></button></th>
+            <th><button class="carte_13"></button></th>
+            <th><button class="carte_14"></button></th>
+            <th><button class="carte_15"></button></th>
+          </tr>
+          <tr>
+            <th><button class="carte_16"></button></th>
+            <th><button class="carte_17"></button></th>
+            <th><button class="carte_18"></button></th>
+            <th><button class="carte_19"></button></th>
+            <th><button class="carte_20"></button></th>
+          </tr>
+          <tr>
+            <th><button class="carte_21"></button></th>
+            <th><button class="carte_22"></button></th>
+            <th><button class="carte_23"></button></th>
+            <th><button class="carte_24"></button></th>
+            <th><button class="carte_25"></button></th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </center>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+  <script src="/client.js"></script>
+  <script src="/alertify.js"></script>
+  <script src="/alertify.min.js"></script>
+  <script src="/notify.js"></script>
+  <script src="/notify.min.js"></script>
+</body>
+</html>
