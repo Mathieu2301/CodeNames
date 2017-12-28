@@ -17,7 +17,15 @@ $(function () {
     var main$devinBtn =            $('.devinBtn');            //The devin button
     var main$donneurindicesBtn =   $('.donneurindicesBtn');   //The donneurindices button
 
-    var socket = io();
+    var parsedUrl = new URL(window.location.href);
+    var ip = parsedUrl.searchParams.get("ip");
+    if (ip != ""){
+        var socket = io(ip);
+    }else{
+        var socket = io();
+    }
+    
+
     var highest_ping = 0;
     var lowest_ping = 9999;
 
@@ -69,7 +77,7 @@ $(function () {
 
                 tour = infos.tour;
 
-                var msg  = "Ping = " + ping + "ms (" + lowest_ping + "ms ; " + highest_ping + "ms) | Srv_start_date = " + demarrage_serveur_date + " | Srv_runtime = " + wdate_txt + " | Requests = " + infos.requests_nbr + " | Total requests = " + infos.total_requests_nbr + " | Delay = " + delay;
+                var msg = "Serveur = " + window.location.href + " | Ping = " + ping + "ms (" + lowest_ping + "ms ; " + highest_ping + "ms) | Srv_start_date = " + demarrage_serveur_date + " | Srv_runtime = " + wdate_txt + " | Requests = " + infos.requests_nbr + " | Total requests = " + infos.total_requests_nbr + " | Delay = " + delay;
                 var party_msg = "Players = " + infos.player_nbr + " | Tour actuel = " + tour + " | Score bleu = " + scorebleu + "%" + " | Score rouge = " + scorerouge + "%";
 
                 $('#infos_txt').text(msg);
@@ -115,7 +123,7 @@ $(function () {
         e=e||window.event;
         var key=e.which?e.which:event.keyCode;
         if (key== 109){ // M
-            alertify.message("P : Retour au menu \n A : Assign user \n R : Reload client \n D : Modifier le delay \n I : Afficher/Masquer les infos \n Shift + R : Reload serveur \n Shift + S : Eteindre le serveur");
+            alertify.message("P : Changer de serveur \n P : Retour au menu \n A : Assign user \n R : Reload client \n D : Modifier le delay \n I : Afficher/Masquer les infos \n Shift + R : Reload serveur \n Shift + S : Eteindre le serveur");
         }else if (key == 114){ // R
             reloadclient();
         }else if (key == 100){ // D
@@ -123,7 +131,15 @@ $(function () {
             if (p != ""){
                 delay = Math.round(p);
             }
+        }else if (key == 115){ // S
+            var p = prompt("IP :", "http://127.0.0.1/")
+            if (p != ""){
+                var url_string = window.location.href;
+                var url = new URL(url_string);
+                window.location.href = window.location.href + "?ip=" + p;
+            }
         }else if (key == 112){ // P
+            alertify.success("Vous êtes retourné au menu !");
             gotoMain();
         }else if (key == 97){ // A
             var uid = prompt("User :")
@@ -317,7 +333,11 @@ $(function () {
 
     function reloadclient(){
         if (status == "devin"){
-            socket.emit('getcards');
+            if (scorebleu == 0 && scorerouge == 0){
+                socket.emit('getcards');
+            }else{
+                gotoMain();
+            }
             alertify.success("Reload client terminé !");
             $('#welcomeMessage').text("Connexion rétablie ! Sélectionnez votre rôle :");
         }else if (status == "espion"){
