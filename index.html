@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <p style="float: left" id='infos_txt'></p><p style="float: right" id='party_infos_txt'></p>
-<html class="htmlbgcolor" lang="fr">
+<html lang="fr">
 <head>
 <title></title>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!-- CSS -->
-<link rel="stylesheet" href="/css/alertify.min.css"/>
-<!-- Default theme -->
-<link rel="stylesheet" href="/css/themes/default.min.css"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+<link rel="stylesheet" href="css/alertify.min.css"/>
+<link rel="stylesheet" href="css/themes/default.min.css"/>
+<link rel="stylesheet" href="css/iziToast.min.css"/>
+
+<link rel="stylesheet" type="text/css" href="css/demo.css" />
+<link rel="stylesheet" type="text/css" href="css/component.css" />
+<script src="js/modernizr.custom.js"></script>
 
 <style>
 
-  html{
+  body{
     transition: all 0.5s;
-    background-color: #c8c8c8;
-    font: "arial";
+    overflow: hidden;
+    overflow-y: hidden;
+    font-family: 'Roboto', sans-serif;
   }
 
   a {
@@ -41,7 +45,7 @@
     background-color: white
   }
 
-  button{
+  #btnn{
     display: inline-block;
     border: none;
     font-size: 40px;
@@ -90,145 +94,186 @@
   }
 
   .devinBtn{
-    display: block;
-    height: 500px;
-    width: 500px;
     float: left;
-    transition: all 0.5s;
-  }
-
-  .devinBtn:hover{
-    height: 600px;
-    width: 600px;
-    transition: all 0.3s;
   }
 
   .donneurindicesBtn{
-    display: block;
-    height: 500px;
-    width: 500px;
     float: right;
-    transition: all 0.5s;
   }
 
-  .donneurindicesBtn:hover{
-    height: 600px;
-    width: 600px;
-    transition: all 0.3s;
+  #buttonMenu{
+    display: block;
+    height: 50px;
+    width: 240px;
+    transition: all 0.1s;
+    position: absolute;
+    border-radius: 5px;
+    border: none;
+    display: inline-block;
+    left: 40%;
+    font-size: inherit;
+    text-transform: uppercase;
+    background-color: #47a3da;
+    color: #fff;
   }
 
-  .main{
-    width: 1200px;
+  #buttonMenu:hover{
+    transition: 0.2s;
+    border-radius: 7px;
+    background-color: #4787da;
   }
-
-
 </style>
-
-
-<script>
-
-</script>
 
 </head>
 <body>
-  </br></br></br></br>
-  <center>
+
     <div class="main">
       <!-- La on met tous les boutons -->
-      <p id="welcomeMessage" style="font-size: 50px; transition: all 0.3s;">Connexion...</p></br>
-      <img src="/devin.png" class="devinBtn" onmouseover="$('html').css('background-color','white');"></img>
-      <img src="/espion.png" class="donneurindicesBtn" onmouseover="$('html').css('background-color','white');"></img>
+      <div class="container">
+        <div id="splitlayout" class="splitlayout">
+          <div class="intro">
+            <div class="side side-left">
+              <div class="intro-content">
+                <div class="profile"><img src="img/espion.png" alt="profile2"></div>
+                <h1><span>Informateur </span><span>Donne les indices</span></h1>
+              </div>
+              <div class="overlay"></div>
+            </div>
+            <div class="side side-right">
+              <div class="intro-content">
+                <div class="profile1"><img src="img/devin.png" alt="profile1"></div>
+                <h1><span>Enquêteur </span><span>Cherche les noms de code</span></h1>
+              </div>
+              <div class="overlay"></div>
+            </div>
+          </div><!-- /intro -->
+          <div class="page page-right page-large">
+            <div class="page-inner">
+              <section>
+                  <h2>Enquêteur</h2>
+                  <p>Chaque Enquêteur va essayer de faire deviner ses Noms de Code à son équipe.
+                   Pour cela, ils donnent un seul indice pouvant désigner le maximum de Noms de Code. 
+                   Vous devez alors essayer de deviner leurs Noms de Code et d'éviter ceux de l'autre équipe. 
+                   Bien entendu, tout le monde veut esquiver l'Assassin !</p>
+                  </br>
+                  <button id="buttonMenu" class="devinBtn">Sélectionner</button>
+                  </br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+              </section>
+            </div><!-- /page-inner -->
+          </div><!-- /page-right -->
+          <div class="page page-left page-fill">
+            <div class="page-inner">
+              <section>
+                <h2>Informateur</h2>
+                <p>Les Espions savent à quelle équipe appartiennent tous les Noms de Code. Chaque Espion va essayer de faire deviner ses Noms de Code à son équipe. Pour cela, les Espions donnent un seul indice pouvant désigner le maximum de Noms de Code. Les Agents essayent alors de deviner leurs Noms de Code et d'éviter ceux de l'autre équipe. Bien entendu, tout le monde veut esquiver l'Assassin !</p>
+                </br>
+                <button id="buttonMenu" class="donneurindicesBtn">Sélectionner</button>
+                </br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+              </section>
+            </div><!-- /page-inner -->
+          </div><!-- /page-left -->
+          <a href="#" class="back back-right" title="back to intro">→</a>
+          <a href="#" class="back back-left" title="back to intro">←</a>
+        </div><!-- /splitlayout -->
+      </div><!-- /container -->
     </div>
     <div class="devin">
-      <table>
-        <tbody>
-          <tr>
-            <th><button class="carte_1"></button></th>
-            <th><button class="carte_2"></button></th>
-            <th><button class="carte_3"></button></th>
-            <th><button class="carte_4"></button></th>
-            <th><button class="carte_5"></button></th>
-          </tr>
-          <tr>
-            <th><button class="carte_6"></button></th>
-            <th><button class="carte_7"></button></th>
-            <th><button class="carte_8"></button></th>
-            <th><button class="carte_9"></button></th>
-            <th><button class="carte_10"></button></th>
-          </tr>
-          <tr>
-            <th><button class="carte_11"></button></th>
-            <th><button class="carte_12"></button></th>
-            <th><button class="carte_13"></button></th>
-            <th><button class="carte_14"></button></th>
-            <th><button class="carte_15"></button></th>
-          </tr>
-          <tr>
-            <th><button class="carte_16"></button></th>
-            <th><button class="carte_17"></button></th>
-            <th><button class="carte_18"></button></th>
-            <th><button class="carte_19"></button></th>
-            <th><button class="carte_20"></button></th>
-          </tr>
-          <tr>
-            <th><button class="carte_21"></button></th>
-            <th><button class="carte_22"></button></th>
-            <th><button class="carte_23"></button></th>
-            <th><button class="carte_24"></button></th>
-            <th><button class="carte_25"></button></th>
-          </tr>
-        </tbody>
-      </table>
-      <button class="next_btn" style="vertical-align:middle"><span>Suivant </span></button>
+      <center>
+        </br><h1>Vous êtes Agent</h1></br>
+        <table>
+          <tbody>
+            <tr>
+              <th><button id="btnn" class="carte_1"></button></th>
+              <th><button id="btnn" class="carte_2"></button></th>
+              <th><button id="btnn" class="carte_3"></button></th>
+              <th><button id="btnn" class="carte_4"></button></th>
+              <th><button id="btnn" class="carte_5"></button></th>
+            </tr>
+            <tr>
+              <th><button id="btnn" class="carte_6"></button></th>
+              <th><button id="btnn" class="carte_7"></button></th>
+              <th><button id="btnn" class="carte_8"></button></th>
+              <th><button id="btnn" class="carte_9"></button></th>
+              <th><button id="btnn" class="carte_10"></button></th>
+            </tr>
+            <tr>
+              <th><button id="btnn" class="carte_11"></button></th>
+              <th><button id="btnn" class="carte_12"></button></th>
+              <th><button id="btnn" class="carte_13"></button></th>
+              <th><button id="btnn" class="carte_14"></button></th>
+              <th><button id="btnn" class="carte_15"></button></th>
+            </tr>
+            <tr>
+              <th><button id="btnn" class="carte_16"></button></th>
+              <th><button id="btnn" class="carte_17"></button></th>
+              <th><button id="btnn" class="carte_18"></button></th>
+              <th><button id="btnn" class="carte_19"></button></th>
+              <th><button id="btnn" class="carte_20"></button></th>
+            </tr>
+            <tr>
+              <th><button id="btnn" class="carte_21"></button></th>
+              <th><button id="btnn" class="carte_22"></button></th>
+              <th><button id="btnn" class="carte_23"></button></th>
+              <th><button id="btnn" class="carte_24"></button></th>
+              <th><button id="btnn" class="carte_25"></button></th>
+            </tr>
+          </tbody>
+        </table>
+        <button class="next_btn" style="vertical-align:middle"><span>Suivant </span></button>
+      </center>
     </div>
     <div class="donneurindices"> <!-- On affiche les cartes avec les couleurs -->
-      <table>
-        <tbody>
-          <tr>
-            <th><button class="carte_1"></button></th>
-            <th><button class="carte_2"></button></th>
-            <th><button class="carte_3"></button></th>
-            <th><button class="carte_4"></button></th>
-            <th><button class="carte_5"></button></th>
-          </tr>
-          <tr>
-            <th><button class="carte_6"></button></th>
-            <th><button class="carte_7"></button></th>
-            <th><button class="carte_8"></button></th>
-            <th><button class="carte_9"></button></th>
-            <th><button class="carte_10"></button></th>
-          </tr>
-          <tr>
-            <th><button class="carte_11"></button></th>
-            <th><button class="carte_12"></button></th>
-            <th><button class="carte_13"></button></th>
-            <th><button class="carte_14"></button></th>
-            <th><button class="carte_15"></button></th>
-          </tr>
-          <tr>
-            <th><button class="carte_16"></button></th>
-            <th><button class="carte_17"></button></th>
-            <th><button class="carte_18"></button></th>
-            <th><button class="carte_19"></button></th>
-            <th><button class="carte_20"></button></th>
-          </tr>
-          <tr>
-            <th><button class="carte_21"></button></th>
-            <th><button class="carte_22"></button></th>
-            <th><button class="carte_23"></button></th>
-            <th><button class="carte_24"></button></th>
-            <th><button class="carte_25"></button></th>
-          </tr>
-        </tbody>
-      </table>
+      <center>
+        </br></br><h1>Vous êtes Espion</h1></br></br>
+        <table>
+          <tbody>
+            <tr>
+              <th><button id="btnn" class="carte_1"></button></th>
+              <th><button id="btnn" class="carte_2"></button></th>
+              <th><button id="btnn" class="carte_3"></button></th>
+              <th><button id="btnn" class="carte_4"></button></th>
+              <th><button id="btnn" class="carte_5"></button></th>
+            </tr>
+            <tr>
+              <th><button id="btnn" class="carte_6"></button></th>
+              <th><button id="btnn" class="carte_7"></button></th>
+              <th><button id="btnn" class="carte_8"></button></th>
+              <th><button id="btnn" class="carte_9"></button></th>
+              <th><button id="btnn" class="carte_10"></button></th>
+            </tr>
+            <tr>
+              <th><button id="btnn" class="carte_11"></button></th>
+              <th><button id="btnn" class="carte_12"></button></th>
+              <th><button id="btnn" class="carte_13"></button></th>
+              <th><button id="btnn" class="carte_14"></button></th>
+              <th><button id="btnn" class="carte_15"></button></th>
+            </tr>
+            <tr>
+              <th><button id="btnn" class="carte_16"></button></th>
+              <th><button id="btnn" class="carte_17"></button></th>
+              <th><button id="btnn" class="carte_18"></button></th>
+              <th><button id="btnn" class="carte_19"></button></th>
+              <th><button id="btnn" class="carte_20"></button></th>
+            </tr>
+            <tr>
+              <th><button id="btnn" class="carte_21"></button></th>
+              <th><button id="btnn" class="carte_22"></button></th>
+              <th><button id="btnn" class="carte_23"></button></th>
+              <th><button id="btnn" class="carte_24"></button></th>
+              <th><button id="btnn" class="carte_25"></button></th>
+            </tr>
+          </tbody>
+        </table>
+      </center>
     </div>
-  </center>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-  <script src="/client.js"></script>
-  <script src="/alertify.js"></script>
-  <script src="/alertify.min.js"></script>
-  <script src="/notify.js"></script>
-  <script src="/notify.min.js"></script>
+  <script src="client.js"></script>
+  <script src="js/alertify.min.js"></script>
+  <script src="js/notify.min.js"></script>
+  <script src="js/iziToast.min.js"></script>
+  
+  <script src="js/classie.js"></script>
+  <script src="js/cbpSplitLayout.js"></script>
 </body>
 </html>

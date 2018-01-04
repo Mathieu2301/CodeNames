@@ -17,7 +17,15 @@ $(function () {
     var main$devinBtn =            $('.devinBtn');            //The devin button
     var main$donneurindicesBtn =   $('.donneurindicesBtn');   //The donneurindices button
 
-    var socket = io();
+    var parsedUrl = new URL(window.location.href);
+    var ip = parsedUrl.searchParams.get("ip");
+    if (ip != "" && ip != null){
+        var socket = io(ip);
+    }else{
+        var socket = io();
+    }
+    
+
     var highest_ping = 0;
     var lowest_ping = 9999;
 
@@ -46,7 +54,7 @@ $(function () {
             if (lowest_ping > ping){ lowest_ping = ping; }
             if (highest_ping < ping){ highest_ping = ping; }
 
-            $('title').text("CodeNames - " + ping + 'ms');
+            $('title').text("CodeNames");
 
             if (showInfos){
                 var sdate = new Date(infos.startDate);
@@ -69,7 +77,7 @@ $(function () {
 
                 tour = infos.tour;
 
-                var msg  = "Ping = " + ping + "ms (" + lowest_ping + "ms ; " + highest_ping + "ms) | Srv_start_date = " + demarrage_serveur_date + " | Srv_runtime = " + wdate_txt + " | Requests = " + infos.requests_nbr + " | Total requests = " + infos.total_requests_nbr + " | Delay = " + delay;
+                var msg = "Serveur = " + window.location.href + " | Ping = " + ping + "ms (" + lowest_ping + "ms ; " + highest_ping + "ms) | Srv_start_date = " + demarrage_serveur_date + " | Srv_runtime = " + wdate_txt + " | Requests = " + infos.requests_nbr + " | Total requests = " + infos.total_requests_nbr + " | Delay = " + delay;
                 var party_msg = "Players = " + infos.player_nbr + " | Tour actuel = " + tour + " | Score bleu = " + scorebleu + "%" + " | Score rouge = " + scorerouge + "%";
 
                 $('#infos_txt').text(msg);
@@ -92,7 +100,7 @@ $(function () {
             $MainPage.hide();
             socket.emit('getcards');
         }else{
-            alertify.warning("Impossible de rejoindre : une partie est déjà en cours.")
+            notif("Impossible de rejoindre : une partie est déjà en cours.", "warn");
         }
     }
 
@@ -104,7 +112,7 @@ $(function () {
     }
 
     function gotoMain(){
-        $('.htmlbgcolor').css('background-color', "#c8c8c8");
+        $('body').css('background-color', "#c8c8c8");
         $DevinPage.fadeOut();
         $DonneurIndicesPage.fadeOut();
         status = "main";
@@ -115,21 +123,29 @@ $(function () {
         e=e||window.event;
         var key=e.which?e.which:event.keyCode;
         if (key== 109){ // M
-            alertify.message("P : Retour au menu \n A : Assign user \n R : Reload client \n D : Modifier le delay \n I : Afficher/Masquer les infos \n Shift + R : Reload serveur \n Shift + S : Eteindre le serveur");
+            notif("S : Changer de serveur </br> P : Retour au menu </br> A : Assign user </br> R : Reload client </br> D : Modifier le delay </br> I : Afficher/Masquer les infos </br> Shift + R : Reload serveur </br> Shift + S : Éteindre le serveur", "menuinfos");
         }else if (key == 114){ // R
             reloadclient();
         }else if (key == 100){ // D
             var p = prompt("Nouveau delay :", delay)
-            if (p != ""){
+            if (p != "" && p != null){
                 delay = Math.round(p);
             }
+        }else if (key == 115){ // S
+            var p = prompt("IP :", "http://127.0.0.1/")
+            if (p != "" && p != null){
+                var url_string = window.location.href;
+                var url = new URL(url_string);
+                window.location.href = window.location.href + "?ip=" + p;
+            }
         }else if (key == 112){ // P
+            notif("Vous êtes retourné au menu !", "success")
             gotoMain();
         }else if (key == 97){ // A
             var uid = prompt("User :")
             if (uid != ""){
                 var p = prompt("Page [main, espion, devin] :")
-                if (p != ""){
+                if (p != "" && p != null){
                     socket.emit('admin-assignuser', {
                         userid: uid,
                         page: p
@@ -137,13 +153,9 @@ $(function () {
                 }
             }
         }else if (key == 82){ // Shift + R
-            if (confirm("Voulez-vous vraiment reload le serveur ?") == true) {
-                socket.emit("reload-serveur");
-            }
+            iziToast.question({timeout: false, closeOnEscape: true, overlayClose: true, close: false,progressBar: false,overlay: true,toastOnce: true,id: 'question',color: "white",zindex: 999,message: 'Voulez-vous vraiment reload le serveur ?',position: 'center',buttons: [['<button><b>OUI</b></button>', function (instance, toast) {instance.hide(toast, { transitionOut: 'fadeOut' }, 'button');socket.emit("reload-serveur");}, true],['<button>NON</button>', function (instance, toast) {instance.hide(toast, { transitionOut: 'fadeOut' }, 'button');}]]});
         }else if (key == 83){ // Shift + S
-            if (confirm("Voulez-vous vraiment éteindre le serveur ?") == true) {
-                socket.emit("stop");
-            }
+            iziToast.question({timeout: false, closeOnEscape: true, overlayClose: true, close: false,progressBar: false,overlay: true,toastOnce: true,id: 'question',color: "red",zindex: 999,message: 'Voulez-vous vraiment éteindre le serveur ?',position: 'center',buttons: [['<button><b>OUI</b></button>', function (instance, toast) {instance.hide(toast, { transitionOut: 'fadeOut' }, 'button');socket.emit("stop");}, true],['<button>NON</button>', function (instance, toast) {instance.hide(toast, { transitionOut: 'fadeOut' }, 'button');}]]});
         }else if (key == 105){ // I
             if (showInfos){
                 $('#infos_txt').text("");
@@ -154,7 +166,7 @@ $(function () {
                 $('#party_infos_txt').text("");
                 showInfos = true;
             }
-            alertify.warning('showInfos = ' + showInfos);
+            notif("showInfos = " + showInfos, "warn")
         }
         
         console.log("K = " + key)
@@ -173,11 +185,11 @@ $(function () {
     socket.on('connect', function () {
         if (status == "devin"){
             socket.emit('getcards');
-            alertify.success("Connexion rétablie !");
+            notif("Connexion rétablie !", "success")
             $('#welcomeMessage').text("Connexion rétablie ! Sélectionnez votre rôle :");
         }else if (status == "espion"){
             socket.emit('getcards+colors');
-            alertify.success("Connexion rétablie !");
+            notif("Connexion rétablie !", "success")
             $('#welcomeMessage').text("Connexion rétablie ! Sélectionnez votre rôle :");
         }else{
             $('#welcomeMessage').text("Sélectionnez votre rôle :");
@@ -187,12 +199,12 @@ $(function () {
     socket.on("disconnect", function(){
         $('title').text("CodeNames - Déconnecté");
         $('#welcomeMessage').text("Connexion perdue...");
-        alertify.error("Connexion perdue...");
+        notif("Connexion perdue...", "error")
     });
 
     socket.on('setbackcolor', function (color) {
         if (status != "main"){
-            $('.htmlbgcolor').css('background-color', color);
+            $('body').css('background-color', color);
             new Audio("https://www.memoclic.com/medias/sons-wav/1/336.wav").play();
         }
     });
@@ -267,14 +279,14 @@ $(function () {
         $('.carte_' + data.nbr).css('background-color', data.color);
         $('.carte_' + data.nbr).text("");
         setTimeout(function() {
-            alertify.message(data.msg);
+            notif(data.msg, "info");
             $('#welcomeMessage').text(data.msg);
             gotoMain();
         }, 1500);
     });
 
     socket.on('reload-serveur', function () {
-        alertify.message("Reload serveur...");
+        notif('Reload serveur...', "info");
         $('#welcomeMessage').text("Reload serveur...");
         $('title').text("Reload serveur...");
         setTimeout(function() {
@@ -285,20 +297,20 @@ $(function () {
     socket.on('stop', function () {
         $('#welcomeMessage').text("Le serveur s'est arreté");
         $('title').text("CodeNames - Déconnecté");
-        alertify.error("Connexion perdue");
+        notif("Connexion perdue...", "error");
         gotoMain();
         socket.on('connect', function () {
             $('#welcomeMessage').text("Reconnexion réussie - Sélectionnez votre rôle :");
-            alertify.success("Reconnexion réussie !");
+            notif("Reconnexion réussie !", "success");
         });
     });
 
     socket.on('user-connected', function(id){
-        alertify.message("Un utilisateur s'est connecté");
+        notif("Un utilisateur s'est connecté", "info");
     });
 
     socket.on('user-disconnected', function(id){
-        alertify.message("Un utilisateur s'est déconnecté");
+        notif("Un utilisateur s'est déconnecté", "info");
     });
 
     socket.on('user-goto', function(data){
@@ -312,17 +324,21 @@ $(function () {
         }else if (status == "espion"){
             msg = 'Un utilisateur a rejoint les espions';
         }
-        alertify.message(msg);
+        notif(msg, "info");
     });
 
     function reloadclient(){
         if (status == "devin"){
-            socket.emit('getcards');
-            alertify.success("Reload client terminé !");
+            if (scorebleu == 0 && scorerouge == 0){
+                socket.emit('getcards');
+            }else{
+                gotoMain();
+            }
+            notif("Reload client terminé !", "success");
             $('#welcomeMessage').text("Connexion rétablie ! Sélectionnez votre rôle :");
         }else if (status == "espion"){
             socket.emit('getcards+colors');
-            alertify.success("Reload client terminé !");
+            notif("Reload client terminé !", "success");
             $('#welcomeMessage').text("Connexion rétablie ! Sélectionnez votre rôle :");
         }else{
             $('#welcomeMessage').text("Sélectionnez votre rôle :");
@@ -353,6 +369,84 @@ $(function () {
         else if (docElm.webkitRequestFullScreen) {
             docElm.webkitRequestFullScreen();
         }
+    }
+
+    function notif(msg, type){
+        var toast_msg = "";
+        var toast_title = "";
+        var toast_color = "blue";
+        var toast_image = "";
+        var toast_delay;
+
+        toast_msg = msg;
+        toast_delay = 5000;
+        if (type == "error"){
+            toast_title = "Erreur";
+            toast_color = "red";
+            toast_image = "iziToast-icon ico-error revealIn";
+        }else if (type == "warn"){
+            toast_title = "Attention";
+            toast_color = "yellow";
+            toast_image = "iziToast-icon ico-warning revealIn";
+        }else if (type == "success"){
+            toast_color = "green";
+            toast_image = "iziToast-icon ico-success revealIn";
+        }else if (type == "menuinfos"){
+            toast_title = "Raccourcis clavier :";
+            toast_color = "yellow";
+            toast_delay = 10000;
+        }else{
+            toast_title = "Information";
+            toast_color = "blue";
+            toast_image = "iziToast-icon ico-info revealIn";
+        }
+
+        iziToast.show({
+            id: null, 
+            class: '',
+            title: toast_title,
+            titleColor: '',
+            titleSize: '',
+            titleLineHeight: '',
+            message: toast_msg,
+            messageColor: '',
+            messageSize: '',
+            messageLineHeight: '',
+            backgroundColor: '',
+            theme: 'light', // dark
+            color: toast_color, // blue, red, green, yellow
+            icon: toast_image,
+            iconText: '',
+            iconColor: '',
+            image: '',
+            imageWidth: 50,
+            maxWidth: null,
+            zindex: null,
+            layout: 2,
+            balloon: false,
+            close: true,
+            closeOnEscape: true,
+            rtl: false,
+            position: 'bottomRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+            target: '',
+            targetFirst: true,
+            toastOnce: false,
+            timeout: toast_delay,
+            animateInside: true,
+            drag: true,
+            pauseOnHover: true,
+            resetOnHover: false,
+            progressBar: true,
+            progressBarColor: '',
+            progressBarEasing: 'linear',
+            overlay: false,
+            overlayClose: false,
+            overlayColor: 'rgba(0, 0, 0, 0.6)',
+            transitionIn: 'fadeInUp',
+            transitionOut: 'fadeOut',
+            transitionInMobile: 'fadeInUp',
+            transitionOutMobile: 'fadeOutDown'
+        });
     }
 
 });
