@@ -1,4 +1,4 @@
-#CodeNames
+# CodeNames
 
 1. Type `git clone https://github.com/Mathieu2301/CodeNames`
 1. Run `install.bat`
