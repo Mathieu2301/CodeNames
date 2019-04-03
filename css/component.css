@@ -95,13 +95,13 @@ body {
 }
 
 .profile1 img {
-	max-width: 100%;
+	max-width: 90%;
 	border-radius: 50%;
 	opacity: 0.6;
 }
 
 .profile img {
-	max-width: 100%;
+	max-width: 78%;
 	border-radius: 50%;
 	opacity: 0.6;
 }
